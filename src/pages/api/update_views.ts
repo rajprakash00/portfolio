@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { enabled, supabaseClient } = initSupabaseClient();
 
@@ -20,7 +20,7 @@ export default async function handler(
         if (error) {
           res.status(500).json({ error });
         } else {
-          res.status(200).json({ data });
+          res.status(200).json({ views_count: data });
         }
       }
     }
