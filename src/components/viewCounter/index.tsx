@@ -5,37 +5,34 @@ import styled from "styled-components";
 
 export const ViewCounter = () => {
   const { pathname: path } = useRouter();
-  const isDisabled = process.env.NODE_ENV === "development";
+  const isDev = process.env.NODE_ENV === "development";
+
+  // 1. Safe extraction: If on home page, default slug to "intro" instead of an empty string
+  const rawSlug = path.split("/")[1];
+  const baseSlug = rawSlug && rawSlug !== "" ? rawSlug : "intro";
+
+  // dev writes go to a prefixed slug → never pollutes prod rows
+  const slug = isDev ? `dev__${baseSlug}` : baseSlug;
+
   const { data: views, isLoading } = useQuery({
-    queryKey: ["page_views", path.split("/")[1]],
-    queryFn: () =>
-      isDisabled
-        ? fetchViewsCount(path.split("/")[1])
-        : handleViewCount(path.split("/")[1]),
+    queryKey: ["page_views", slug],
+    // always call handleViewCount in both envs — it increments + returns count
+    queryFn: () => handleViewCount(slug),
     staleTime: Infinity,
   });
 
+  const currentViews = views?.views_count ?? 0;
   return (
     <Center>
       {isLoading ? (
         <ViewsMark>Getting views count</ViewsMark>
       ) : (
         <>
-          <ViewsMark>
-            {views.data[0]?.views_count ?? views.data} views! Thanks for coming
-            by 🙌
-          </ViewsMark>
+          <ViewsMark>{currentViews} views! Thanks for coming by 🙌</ViewsMark>
         </>
       )}
     </Center>
   );
-};
-
-const fetchViewsCount = async (slug: string) => {
-  const result = await fetch(`/api/fetch_views?page_slug=${slug}`);
-
-  const updatedData = result.json();
-  return updatedData;
 };
 
 const handleViewCount = async (slug: string) => {
@@ -46,7 +43,8 @@ const handleViewCount = async (slug: string) => {
     body: JSON.stringify(reqBody),
   });
 
-  const updatedData = result.json();
+  const updatedData = await result.json();
+
   return updatedData;
 };
 
@@ -54,7 +52,8 @@ const ViewsMark = styled.mark`
   margin-top: 50px;
   font-weight: 500;
   font-style: italic;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       104deg,
       rgba(130, 255, 173, 0) 0.9%,
       rgba(130, 255, 173, 1.25) 2.4%,
