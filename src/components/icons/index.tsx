@@ -1,4 +1,4 @@
-import { cloneElement } from "react";
+import { cloneElement, type ReactElement } from "react";
 import {
 	FaGithub,
 	FaTwitter,
@@ -12,7 +12,7 @@ import { SocialIcon, SocialLinksContainer } from "./styles";
 type SocialLinksArrayType = Array<{
 	link: string;
 	title: string;
-	icon: JSX.Element;
+	icon: ReactElement<{ title?: string }>;
 }>;
 export const SocialLinksOverlay = () => {
 	const socialLinks: SocialLinksArrayType = [
@@ -49,7 +49,7 @@ export const SocialLinksOverlay = () => {
 		},
 	];
 
-	const IconWithProps = ({ icon, title }: { icon: JSX.Element; title: string }) =>
+	const IconWithProps = ({ icon, title }: { icon: ReactElement<{ title?: string }>; title: string }) =>
 		cloneElement(icon, { title });
 
 	return (

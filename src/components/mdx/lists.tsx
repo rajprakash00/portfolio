@@ -1,6 +1,5 @@
-import { Children, HTMLAttributes, PropsWithChildren } from "react";
+import { Children, HTMLAttributes, isValidElement, PropsWithChildren } from "react";
 import { GiDiamonds } from "react-icons/gi";
-import { isElement } from "react-is";
 
 import { UnorderedListPointer, UnorderedListStyled } from "./styles";
 
@@ -17,7 +16,7 @@ export const ListItem = ({
 export const UnorderedList = (props: HTMLAttributes<HTMLUListElement>) => (
   <UnorderedListStyled {...props}>
     {Children.map(props.children, (child) => {
-      if (isElement(child)) {
+      if (isValidElement<Record<string, unknown>>(child)) {
         const childProps = child.props;
         return <ListItem {...childProps} />;
       }
