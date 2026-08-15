@@ -1,7 +1,5 @@
 import React from "react";
-import { getMDXComponent } from "next-contentlayer/hooks";
-
-import { allPages, Page } from "../../.contentlayer/generated";
+import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
 import { DocumentHead } from "@/components/shared/seo";
 import { Center, Container } from "@/styles/layout";
@@ -9,12 +7,12 @@ import { SocialLinksOverlay } from "@/components/icons";
 import { MDXComponents } from "@/components/mdx";
 import { ViewCounter } from "@/components/viewCounter";
 import { TitleHighlight } from "@/components/shared/typography";
+import { getContentPage } from "@/lib/content";
 
 interface AboutProps {
-  page: Page;
+  page: MDXRemoteSerializeResult;
 }
 const About = ({ page }: AboutProps) => {
-  const Component = getMDXComponent(page.body.code);
   return (
     <>
       <DocumentHead title="About Me" />
@@ -22,7 +20,10 @@ const About = ({ page }: AboutProps) => {
         <Center>
           <h2>About <TitleHighlight>Me! 🙋‍♂️</TitleHighlight></h2>
         </Center>
-        <Component components={{ SocialLinksOverlay, ...MDXComponents }} />
+        <MDXRemote
+          {...page}
+          components={{ SocialLinksOverlay, ...MDXComponents }}
+        />
         <ViewCounter />
       </Container>
     </>
@@ -30,7 +31,7 @@ const About = ({ page }: AboutProps) => {
 };
 
 export async function getStaticProps() {
-  const page = allPages.find((page) => page.slug === "about");
+  const page = await getContentPage("about");
   return { props: { page } };
 }
 export default About;

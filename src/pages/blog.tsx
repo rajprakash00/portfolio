@@ -1,17 +1,9 @@
 import React from "react";
-import { getMDXComponent } from "next-contentlayer/hooks";
-
-import { allPages, Page } from "../../.contentlayer/generated";
 
 import { DocumentHead } from "@/components/shared/seo";
 import { Center, Container } from "@/styles/layout";
-import { MDXComponents } from "@/components/mdx";
 
-interface BlogProps {
-  page: Page;
-}
-const Blog = ({ page }: BlogProps) => {
-  //const Component = getMDXComponent(page.body.code);
+const Blog = () => {
   return (
     <>
       <DocumentHead title="Blogs" />
@@ -27,9 +19,4 @@ const Blog = ({ page }: BlogProps) => {
     </>
   );
 };
-/* 
-export async function getStaticProps() {
-  const page = allPages.find((page) => page.slug === "blog");
-  return { props: { page } };
-} */
 export default Blog;

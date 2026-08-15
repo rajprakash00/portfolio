@@ -1,19 +1,17 @@
 import React from "react";
-import { getMDXComponent } from "next-contentlayer/hooks";
-
-import { allPages, Page } from "../../.contentlayer/generated";
+import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
 import { DocumentHead } from "@/components/shared/seo";
 import { Container, Center } from "@/styles/layout";
 import { MDXComponents } from "@/components/mdx";
 import { ViewCounter } from "@/components/viewCounter";
 import { TitleHighlight } from "@/components/shared/typography";
+import { getContentPage } from "@/lib/content";
 
 interface HomeProps {
-  page: Page;
+  page: MDXRemoteSerializeResult;
 }
 const Home = ({ page }: HomeProps) => {
-  const Component = getMDXComponent(page.body.code);
   return (
     <>
       <DocumentHead title="Home" />
@@ -22,7 +20,7 @@ const Home = ({ page }: HomeProps) => {
           <h2>Hello , I&apos;m <TitleHighlight> Raj! 👋</TitleHighlight></h2>
         </Center>
 
-        <Component components={{ ...MDXComponents }} />
+        <MDXRemote {...page} components={{ ...MDXComponents }} />
         <ViewCounter />
       </Container>
     </>
@@ -30,7 +28,7 @@ const Home = ({ page }: HomeProps) => {
 };
 
 export async function getStaticProps() {
-  const page = allPages.find((page) => page.slug === "intro");
+  const page = await getContentPage("intro");
   return { props: { page } };
 }
 export default Home;
