@@ -4,6 +4,15 @@ export const SEASONS: Season[] = ["spring", "summer", "autumn", "winter"];
 
 export const SEASON_STORAGE_KEY = "season";
 
+/** Window CustomEvent dispatched by the picker so overlays (sprinkle, vine) can react. */
+export const SEASON_CHANGE_EVENT = "seasonchange";
+
+export interface SeasonChangeEventDetail {
+  season: Season;
+  /** Viewport coords of the control that triggered the switch (sprinkle origin). */
+  origin: { x: number; y: number };
+}
+
 export function isSeason(value: unknown): value is Season {
   return (
     value === "spring" ||
