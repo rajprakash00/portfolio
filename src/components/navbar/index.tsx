@@ -3,12 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
-  FiSun,
   FiMenu,
   FiX,
   FiGithub,
   FiTwitter,
-  FiMoon,
 } from "react-icons/fi";
 import { GiBurningTree } from "react-icons/gi";
 
@@ -44,35 +42,13 @@ const linkVariants: Variants = {
   closed: { x: "-100%", opacity: 0 },
 };
 const Navbar = () => {
-  const [darkTheme, setDarkTheme] = useState<boolean | undefined>(undefined);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
   const { asPath } = useRouter();
-
-  useEffect(() => {
-    // Get initial colour mode
-    const root = window.document.documentElement;
-    const value = root.style.getPropertyValue("--initial-data-theme") as
-      | "light"
-      | "dark";
-    setDarkTheme(value === "dark");
-  }, []);
 
   useEffect(() => {
     setShowDrawer(false);
     document.body.style.removeProperty("overflow");
   }, [asPath]);
-
-  useEffect(() => {
-    if (darkTheme !== undefined) {
-      if (darkTheme) {
-        document.documentElement.setAttribute("data-theme", "dark");
-        window.localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.removeAttribute("data-theme");
-        window.localStorage.setItem("theme", "light");
-      }
-    }
-  }, [darkTheme]);
 
   useEffect(() => {
     if (showDrawer) {
@@ -82,11 +58,6 @@ const Navbar = () => {
     }
   }, [showDrawer]);
   
-  const handleThemeChange = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setDarkTheme(!darkTheme);
-  };
-
   const handleSideDrawer = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowDrawer(!showDrawer);
@@ -104,24 +75,7 @@ const Navbar = () => {
           <NavLinks>
             <DesktopNavWrapper />
 
-            {/* theme switch component */}
-            <NavLink>
-              <IconWrapper onClick={handleThemeChange}>
-                {darkTheme === undefined ? (
-                  <span style={{ width: "25px" }} />
-                ) : darkTheme ? (
-                  <FiMoon
-                    aria-label="Switch to Light Mode"
-                    title="Switch to Light Mode"
-                  />
-                ) : (
-                  <FiSun
-                    aria-label="Switch to Dark Mode"
-                    title="Switch to Dark Mode"
-                  />
-                )}
-              </IconWrapper>
-            </NavLink>
+            {/* seasons picker lands here in slice 2 (replaces old sun/moon toggle) */}
             {/* hamburger toggle component if mobile screen */}
             <NavLink $mobile>
               <IconWrapper onClick={handleSideDrawer}>

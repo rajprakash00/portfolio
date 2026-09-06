@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const FullHeightWrapper = styled.div`
-  min-height: 100vh;
+  min-height: 100dvh;
 `
 
 export const Center = styled.div`

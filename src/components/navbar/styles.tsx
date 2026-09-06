@@ -100,7 +100,7 @@ export const NavLink = styled(motion.li)<INavLink>`
 `;
 
 export const SideDrawer = styled(motion.ul)<{ $visible: boolean }>`
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   position: fixed;
   left: 0;

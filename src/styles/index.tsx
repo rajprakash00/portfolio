@@ -2,40 +2,86 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    --max-width: 650px;
-    --color-primary: #54a854;   //#54a854
-    --color-primary-transparent: rgba(255, 255, 255, 0.93);
-    --primary-background: white;
-    --primary-background-transparent: rgba(255, 255, 255, 0.8);
-    --text-color-primary: rgb(51, 51, 51);
-    --text-color-grey: rgb(36, 41, 47);
-    --color-divider: rgba(102, 102, 102, 0.3);
-    --color-block-quote: #e5e7eb;
-    }
-    [data-theme="dark"] {
-    --color-primary: #60bc63 ;  //#479f61
-    --color-primary-transparent: rgba(1, 56, 2, 0.95);  //rgba(71, 159, 97, 0.95)
-    --primary-background: black;
-    --primary-background-transparent: rgba(1, 1, 1, 0.8);
-    --text-color-primary: white;
-    --text-color-grey: rgb(201, 209, 217);
-    --color-block-quote: #333;
+    --max-width: 680px; /* prose measure ~65ch */
+    --max-width-wide: 1100px; /* board / grid sections */
+    --radius-card: 14px;
+    --radius-note: 6px; /* sticky notes: tighter than cards */
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", "Iosevka", ui-monospace, monospace;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-micro: 220ms; /* hover / press */
+    --dur-reveal: 600ms; /* scroll reveals */
+
+    /* Legacy aliases — existing components resolve to seasonal tokens
+       until slices 3–5 restyle them. Do not use in new code. */
+    --color-primary: var(--accent);
+    --color-primary-transparent: var(--accent-soft);
+    --primary-background: var(--bg);
+    --primary-background-transparent: var(--bg);
+    --text-color-primary: var(--ink);
+    --text-color-grey: var(--muted);
+    --color-divider: var(--divider);
+    --color-block-quote: var(--divider);
+  }
+
+  /* SPRING — blossom pink */
+  [data-season="spring"] {
+    --bg: #fdf7f8; --surface: #ffffff; --ink: #2b2326; --muted: #7a6e73;
+    --accent: #d6547e; --accent-ink: #a83a5e; --accent-soft: #f8e2e9;
+    --vine: #5d8a5f; --vine-bloom: #e8a2b8; --particle: petal;
+    --divider: rgba(43, 35, 38, 0.12);
+  }
+  /* SUMMER — meadow green */
+  [data-season="summer"] {
+    --bg: #f5f9f2; --surface: #ffffff; --ink: #22291f; --muted: #67705f;
+    --accent: #3f9147; --accent-ink: #2c6e34; --accent-soft: #ddedda;
+    --vine: #3f7d33; --vine-bloom: #7cc47f; --particle: firefly;
+    --divider: rgba(34, 41, 31, 0.12);
+  }
+  /* AUTUMN — amber */
+  [data-season="autumn"] {
+    --bg: #faf5ec; --surface: #fffdf8; --ink: #2e2620; --muted: #7d7264;
+    --accent: #b96f1f; --accent-ink: #8d5412; --accent-soft: #f3e3c8;
+    --vine: #7a5a2e; --vine-bloom: #d99a3d; --particle: leaf;
+    --divider: rgba(46, 38, 32, 0.12);
+  }
+  /* WINTER — frost blue */
+  [data-season="winter"] {
+    --bg: #f2f6fa; --surface: #ffffff; --ink: #1f2a36; --muted: #647182;
+    --accent: #3570a8; --accent-ink: #25567f; --accent-soft: #dbe8f4;
+    --vine: #4a6572; --vine-bloom: #9fc3dd; --particle: snow;
+    --divider: rgba(31, 42, 54, 0.12);
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   html,
   body {
     padding: 0;
     margin: 0;
-    font-family: -apple-system, Inter, BlinkMacSystemFont, Segoe UI, Roboto,
-      Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-      sans-serif;
-    color: var(--text-color-primary);
-    background-color: var(--primary-background);
+    font-family: var(--font-body);
+    color: var(--ink);
+    background-color: var(--bg);
     font-size: 18px;
-    line-height: 1.5;
-    min-height: 100vh;
-	  scroll-padding-top: 60px;
-	  scroll-behavior: smooth;
+    line-height: 1.65;
+    min-height: 100dvh;
+    scroll-padding-top: 60px;
+    scroll-behavior: smooth;
+    transition: background-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   * {
