@@ -13,12 +13,20 @@ export const GlobalStyles = createGlobalStyle`
     --dur-micro: 220ms; /* hover / press */
     --dur-reveal: 600ms; /* scroll reveals */
 
+    color-scheme: light;
+
+    /* Default season wash (pre-bootstrap first paint); script corrects before Main. */
+    --bg: #fdf7f8; --surface: #ffffff; --ink: #2b2326; --muted: #7a6e73;
+    --accent: #d6547e; --accent-ink: #a83a5e; --accent-soft: #f8e2e9;
+    --vine: #5d8a5f; --vine-bloom: #e8a2b8; --particle: petal;
+    --divider: rgba(43, 35, 38, 0.12);
+
     /* Legacy aliases — existing components resolve to seasonal tokens
        until slices 3–5 restyle them. Do not use in new code. */
     --color-primary: var(--accent);
-    --color-primary-transparent: var(--accent-soft);
+    --color-primary-transparent: color-mix(in srgb, var(--accent-soft) 93%, transparent);
     --primary-background: var(--bg);
-    --primary-background-transparent: var(--bg);
+    --primary-background-transparent: color-mix(in srgb, var(--bg) 80%, transparent);
     --text-color-primary: var(--ink);
     --text-color-grey: var(--muted);
     --color-divider: var(--divider);
@@ -70,8 +78,12 @@ export const GlobalStyles = createGlobalStyle`
     min-height: 100dvh;
     scroll-padding-top: 60px;
     scroll-behavior: smooth;
-    transition: background-color 300ms var(--ease-out),
-      color 300ms var(--ease-out);
+  }
+
+  /* Season crossfade: cheap (bg + color only). */
+  body {
+    transition: background-color var(--dur-micro) var(--ease-out),
+      color var(--dur-micro) var(--ease-out);
   }
 
   ::selection {
@@ -100,10 +112,14 @@ export const GlobalStyles = createGlobalStyle`
 	h4 {
 		margin: 0;
 		padding-top: 2rem;
+		font-family: var(--font-display);
+		text-wrap: balance;
 	}
 
 	h1 {
 		font-size: 2.5rem;
+		letter-spacing: -0.03em;
+		line-height: 12.05; 
 	}
 	h2 {
 		font-size: 2rem;
@@ -111,6 +127,16 @@ export const GlobalStyles = createGlobalStyle`
 	h3 {
 		font-size: 1.5rem;
 	}
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    body,
+    * {
+      transition-duration: 0.01ms !important;
+    }
+  }
 
 	a {
 		text-decoration: none;

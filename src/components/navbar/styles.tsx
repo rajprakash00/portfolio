@@ -49,6 +49,7 @@ export const NavbarContainer = styled.header`
   width: 100%;
   z-index: 2;
   background-color: var(--primary-background-transparent);
+  transition: background-color var(--dur-micro) var(--ease-out);
 
   ${IconWrapper},${LogoContainer} {
     z-index: 10;

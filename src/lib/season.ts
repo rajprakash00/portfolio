@@ -1,24 +1,21 @@
-export type Season = "spring" | "summer" | "autumn" | "winter";
-
-export const SEASONS: Season[] = ["spring", "summer", "autumn", "winter"];
+export const SEASONS = ["spring", "summer", "autumn", "winter"] as const;
+export type Season = (typeof SEASONS)[number];
 
 export const SEASON_STORAGE_KEY = "season";
 
-/** Window CustomEvent dispatched by the picker so overlays (sprinkle, vine) can react. */
+/** Window CustomEvent dispatched on season switch; slice 3 board + slice 4 vine listen to this. */
 export const SEASON_CHANGE_EVENT = "seasonchange";
 
 export interface SeasonChangeEventDetail {
   season: Season;
+  previous: Season | null;
   /** Viewport coords of the control that triggered the switch (sprinkle origin). */
   origin: { x: number; y: number };
 }
 
 export function isSeason(value: unknown): value is Season {
   return (
-    value === "spring" ||
-    value === "summer" ||
-    value === "autumn" ||
-    value === "winter"
+    typeof value === "string" && (SEASONS as readonly string[]).includes(value)
   );
 }
 

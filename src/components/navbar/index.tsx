@@ -20,7 +20,7 @@ import {
   SideDrawer,
   LogoContainer,
 } from "./styles";
-import SeasonsPicker from "@/components/seasons-picker";
+import { SeasonPicker } from "@/components/season";
 
 const NAV_LINKS = [
   {
@@ -77,8 +77,8 @@ const Navbar = () => {
             <DesktopNavWrapper />
 
             {/* seasons picker (replaces the old sun/moon toggle) */}
-            <NavLink>
-              <SeasonsPicker />
+            <NavLink aria-label="Season picker">
+              <SeasonPicker />
             </NavLink>
             {/* hamburger toggle component if mobile screen */}
             <NavLink $mobile>

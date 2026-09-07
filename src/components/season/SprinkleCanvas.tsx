@@ -1,13 +1,59 @@
 import { useEffect, useRef } from "react";
+import styled from "styled-components";
 
-import {
-  SEASON_CHANGE_EVENT,
-  Season,
-  SeasonChangeEventDetail,
-} from "@/lib/season";
-import { SprinkleCanvas } from "./styles";
+import { SEASON_CHANGE_EVENT } from "@/lib/season";
+import type { Season, SeasonChangeEventDetail } from "@/lib/season";
+import type { SeasonOrigin } from "./SeasonContext";
 
-interface Particle {
+/*
+ * z-index scale: navbar 2, side drawer (fixed, auto) 3-9,
+ * sprinkle overlay 60, future grain overlay 70.
+ */
+const SprinkleLayer = styled.canvas`
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 60;
+  pointer-events: none;
+`;
+
+const BURST_MS = 1200;
+const COUNT = 80;
+const MAX_DPR = 2;
+
+// Seasonal gravity (px/frame² at 60fps): most particles fall, fireflies drift up.
+const GRAVITY: Record<Season, number> = {
+  spring: 0.055,
+  summer: -0.02,
+  autumn: 0.07,
+  winter: 0.045,
+};
+
+// Hex fallbacks mirror DESIGN.md §2.2 (used only if a CSS var read comes back empty).
+const FALLBACK: Record<string, string> = {
+  "--accent": "#d6547e",
+  "--accent-ink": "#a83a5e",
+  "--accent-soft": "#f8e2e9",
+  "--vine-bloom": "#e8a2b8",
+};
+
+const PALETTE_VARS: Record<Season, [string, string, string]> = {
+  spring: ["--accent", "--accent-soft", "--vine-bloom"],
+  summer: ["--accent", "--vine-bloom", "--accent-ink"],
+  autumn: ["--accent", "--accent-ink", "--vine-bloom"],
+  winter: ["--vine-bloom", "--accent-soft", "--accent"],
+};
+
+/** Palette from the live season tokens, so particles always match the active theme. */
+function getPalette(season: Season): string[] {
+  const root = getComputedStyle(document.documentElement);
+  return PALETTE_VARS[season].map(
+    (name) => root.getPropertyValue(name).trim() || FALLBACK[name]
+  );
+}
+
+type Particle = {
   x: number;
   y: number;
   vx: number;
@@ -19,40 +65,9 @@ interface Particle {
   alphaScale: number;
   born: number;
   ttl: number;
-}
-
-const BURST_MS = 1200;
-const COUNT = 80;
-const MAX_DPR = 2;
-
-// Seasonal gravity: most particles fall, fireflies drift upward
-const GRAVITY: Record<Season, number> = {
-  spring: 0.055,
-  summer: -0.02,
-  autumn: 0.07,
-  winter: 0.045,
 };
 
-function getPalette(season: Season): string[] {
-  const root = getComputedStyle(document.documentElement);
-  const pick = (name: string) => root.getPropertyValue(name).trim();
-  switch (season) {
-    case "spring":
-      return [pick("--accent"), pick("--accent-soft"), pick("--vine-bloom")];
-    case "summer":
-      return [pick("--accent"), pick("--vine-bloom"), pick("--accent-ink")];
-    case "autumn":
-      return [pick("--accent"), pick("--accent-ink"), pick("--vine-bloom")];
-    case "winter":
-      return [pick("--vine-bloom"), pick("--accent-soft"), pick("--accent")];
-  }
-}
-
-function spawn(
-  season: Season,
-  origin: SeasonChangeEventDetail["origin"],
-  now: number
-): Particle[] {
+function spawn(season: Season, origin: SeasonOrigin, now: number): Particle[] {
   const palette = getPalette(season);
   const particles: Particle[] = [];
   for (let i = 0; i < COUNT; i++) {
@@ -120,8 +135,8 @@ function drawParticle(
   ctx.restore();
 }
 
-const ParticleSprinkle = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+export function SprinkleCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -129,18 +144,20 @@ const ParticleSprinkle = () => {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-    const resize = () => {
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
+    const fit = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
+    fit();
+    window.addEventListener("resize", fit);
 
     let particles: Particle[] = [];
     let season: Season = "spring";
 
     const tick = (now: number) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       const g = GRAVITY[season];
       particles = particles.filter((p) => {
         const age = now - p.born;
@@ -157,11 +174,10 @@ const ParticleSprinkle = () => {
         drawParticle(ctx, p, season, alpha);
         return true;
       });
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
       if (particles.length > 0) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         rafRef.current = null;
       }
     };
@@ -172,12 +188,8 @@ const ParticleSprinkle = () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       season = detail.season;
-      resize();
-      particles = spawn(
-        detail.season,
-        detail.origin,
-        performance.now()
-      );
+      fit();
+      particles = spawn(detail.season, detail.origin, performance.now());
       if (rafRef.current === null) {
         rafRef.current = requestAnimationFrame(tick);
       }
@@ -186,11 +198,11 @@ const ParticleSprinkle = () => {
     window.addEventListener(SEASON_CHANGE_EVENT, onSeasonChange);
     return () => {
       window.removeEventListener(SEASON_CHANGE_EVENT, onSeasonChange);
+      window.removeEventListener("resize", fit);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
     };
   }, []);
 
-  return <SprinkleCanvas ref={canvasRef} aria-hidden />;
-};
-
-export default ParticleSprinkle;
+  return <SprinkleLayer ref={canvasRef} aria-hidden="true" />;
+}
