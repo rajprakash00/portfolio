@@ -66,9 +66,9 @@ export default class MyDocument extends Document {
   }
 }
 
-const setClientInitialSeason = `(function () {
-  ${setInitialSeason.toString()}setInitialSeason();
-})()`;
+// Parenthesized IIFE survives minification: the function keeps its name in dev,
+// loses it in prod, and must still parse as an expression, not a declaration.
+const setClientInitialSeason = `(${setInitialSeason.toString()})();`;
 
 // DESIGN.md §2: one `data-season` attribute drives the whole theme.
 // Persisted choice in localStorage["season"] always wins;

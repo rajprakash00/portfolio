@@ -98,6 +98,17 @@ export const NavLink = styled(motion.li)<INavLink>`
   a {
     text-decoration: none;
   }
+
+  ${(props) =>
+    props.$active &&
+    css`
+      a {
+        color: var(--accent-ink);
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+      }
+    `}
 `;
 
 export const SideDrawer = styled(motion.ul)<{ $visible: boolean }>`

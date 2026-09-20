@@ -28,6 +28,9 @@ yarn-error.log*
 .env.local
 .env
 
+# local board stress fixture (dev only)
+src/data/board.stress.json
+
 # vercel
 .vercel
 

@@ -28,7 +28,11 @@ const NAV_LINKS = [
     path: "/blog",
   },
   { title: "about", path: "/about" },
+  { title: "pinned", path: "/board" },
 ];
+
+const isActivePath = (asPath: string, path: string) =>
+  asPath === path || asPath.startsWith(`${path}/`);
 
 const variants: Variants = {
   open: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -108,10 +112,17 @@ const Navbar = () => {
 };
 
 const DesktopNavWrapper = () => {
+  const { asPath } = useRouter();
+
   return (
     <>
       {NAV_LINKS.map((page, id) => (
-        <NavLink key={id} arial-label={page.title} $desktop>
+        <NavLink
+          key={id}
+          arial-label={page.title}
+          $desktop
+          $active={isActivePath(asPath, page.path)}
+        >
           <Link href={page.path} passHref>
             {page.title}
           </Link>
@@ -150,6 +161,8 @@ const DesktopNavWrapper = () => {
 };
 
 const MobileNavWrapper = () => {
+  const { asPath } = useRouter();
+
   return (
     <>
       {NAV_LINKS.map((page, id) => (
@@ -158,6 +171,7 @@ const MobileNavWrapper = () => {
           key={id}
           arial-label={page.title}
           $drawer
+          $active={isActivePath(asPath, page.path)}
         >
           <Link href={page.path} passHref>
             {page.title}
