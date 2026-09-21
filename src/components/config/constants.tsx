@@ -1,4 +1,4 @@
 export const SITE_URL: string = "https://byraj.dev/";
 export const SITE_DESCRIPTION: string =
-  "Frontend Engineer, current 💚: Next, Typescript, Valorant";
+  "AI Engineer — LLM systems, evals, human-in-the-loop. Previously fullstack (React, Next.js).";
 export const IMAGE_URL: string = `${SITE_URL}burningTree.png`;
