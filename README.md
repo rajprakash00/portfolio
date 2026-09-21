@@ -1,4 +1,4 @@
-## 🐇 [rajprakash.me](https://rajprakash.me) 
+## 🐇 [byraj.dev](https://byraj.dev) 
 
 This is my personal minimalistic portfolio which I'll be updating frequently with blogs,rebuilding stuffs with different stacks 👻 
 ### Tech stack
@@ -6,7 +6,7 @@ This is my personal minimalistic portfolio which I'll be updating frequently wit
 - [Typescript](https://www.typescriptlang.org/docs/)
 - [styled-components](https://styled-components.com/)
 - [mdx](https://mdxjs.com/)
-- [contentlayer](https://contentlayer.dev/) ✨
+- [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) + [gray-matter](https://github.com/jonschlinkert/gray-matter)
 - [react icons](https://react-icons.github.io/react-icons/) ✨
 - [framer motion](https://www.framer.com/motion/)
 - [supabase](https://supabase.com/)
@@ -21,4 +21,4 @@ To run in dev mode, run:
 npm run dev
 ```
 
-> If you want to have your own page vieweing feature(cool!) then you can edit `.env` file with your own supabase keys.
+> If you want to have your own page viewing feature(cool!) then you can edit `.env` file with your own supabase keys.
