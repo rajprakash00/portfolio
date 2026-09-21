@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 import { DocumentHead } from "@/components/shared/seo";
@@ -12,9 +13,11 @@ const Blog = () => {
           <h2>Coming Soon! ⌛</h2>
           <br />
           <br />
-          <p>I swear I have written first 10 lines of ... 😓</p>
+          <p>
+            No long-form posts yet - shorter notes live on the{" "}
+            <Link href="/board">pinned board</Link>.
+          </p>
         </Center>
-        {/* <Component components={{...MDXComponents }} /> */}
       </Container>
     </>
   );

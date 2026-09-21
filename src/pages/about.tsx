@@ -5,6 +5,7 @@ import { DocumentHead } from "@/components/shared/seo";
 import { Center, Container } from "@/styles/layout";
 import { SocialLinksOverlay } from "@/components/icons";
 import { MDXComponents } from "@/components/mdx";
+import { Timeline } from "@/components/timeline";
 import { ViewCounter } from "@/components/viewCounter";
 import { TitleHighlight } from "@/components/shared/typography";
 import { getContentPage } from "@/lib/content";
@@ -22,7 +23,7 @@ const About = ({ page }: AboutProps) => {
         </Center>
         <MDXRemote
           {...page}
-          components={{ SocialLinksOverlay, ...MDXComponents }}
+          components={{ SocialLinksOverlay, Timeline, ...MDXComponents }}
         />
         <ViewCounter />
       </Container>

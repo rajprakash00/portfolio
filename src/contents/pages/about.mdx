@@ -1,31 +1,37 @@
 ---
 title: About
 publishedAt: "December 20, 2023"
-description: A brief about me and my work 
+description: AI engineer - LLM systems, evals, human-in-the-loop
 ---
 
-I’m currently working as a Senior Frontend Engineer in an edtech based organisation(using NextJS 💚, firebase, tailwind and cypress :)
+I started out writing React and shipping product features. These days I build LLM systems end to end - retrieval, evals, cost tracking, and a human approving anything that writes. The through-line is the same as it was on the frontend: I like knowing whether the thing actually works.
 
-Have been into the world of UI and aesthetic designs for past couple years and still getting intrigued by new frameworks,UIs,and everything TS(always confouded 😵‍💫)
+### How I got here
 
-Tech stacks that I enjoy working with: 
-- [NextJS](https://nextjs.org)
+<Timeline />
 
-- [Tailwind](https://tailwindcss.com/)
+### Principles
 
-- [Styled components](https://styled-components.com/)
+- No citation, no claim. LLM output must trace to source text; invalid items get one repair pass, then drop.
+- Evals before vibes. Precision/recall on frozen sets; CI fails when quality regresses.
+- Budgets are product features. Per-run caps, per-tenant limits, cost persisted per call.
+- Humans hold the write. Agents draft; people approve.
 
-- [Framer motion](https://www.framer.com/motion/)
+### Stack
 
-Currently I'm learning [Rust](https://doc.rust-lang.org/rust-by-example/index.html) , [Golang](https://gobyexample.com/) and various new toolings like [Playwright](https://playwright.dev/) along with dabbling in some of devOps stuffs. 
+- **AI/LLM** — RAG (pgvector + Postgres FTS, RRF), evals, structured outputs, LangGraph agents, MCP, LLM cost tracking
+- **Backend** — Python, FastAPI, Pydantic v2, SQLAlchemy, PostgreSQL, Node.js
+- **Frontend** — React, Next.js, TypeScript, Redux Toolkit, TanStack Query, Tailwind
+- **Infra** — AWS (ECS/Fargate, RDS, S3), Terraform, Docker, GitHub Actions, Sentry, CloudWatch
 
-Initially started with this by getting into world of open source and got a bunch of learnings from that so still trying to pursue that.
-Some of my past contributions are available [here](https://github.com/pulls?q=is%3Aopen+is%3Apr+author%3Arajprakash00+archived%3Afalse+is%3Apublic) in Zulip and other orgs.
+I got my start through open source and still keep at it — a lot of my early learnings came from there. Some past contributions are [here](https://github.com/pulls?q=is%3Aopen+is%3Apr+author%3Arajprakash00+archived%3Afalse+is%3Apublic) in Zulip and other orgs.
 
-Apart from all work things I'm into music,football( CR7 is 𓃵 , won't listen to any comparisons..haha) and everything about [Valorant](https://playvalorant.com/en-gb/news/)( still an average awper😢) and FIFA(beat ledgendary AI once or twice😎).
+**`Touching grass`**: travel, music, badminton and football (CR7 is 🐐 , won't listen to any comparisons haha)
 
-Every social presence of me :
+**`Hit me up if`**: building something cool, Valorant , cafe-hopping 
+
+Every social presence of me:
 
 <SocialLinksOverlay />
 
-If you're interested in my work ex/projects here's a peek at my [resume](https://drive.google.com/file/d/1TluH_z0dU2YtdHH_VutC2UNgK3j92pI4/view?usp=sharing).
+If you're interested in my work ex/projects, here's my [resume](https://drive.google.com/file/d/1yTFHRxneAWEVLSZs6O9z0b-zQH_AYL24/view?usp=drivesdk).
