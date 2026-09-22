@@ -22,3 +22,23 @@ export const Center = styled.div`
 	padding: 0;
 	justify-items: center;
 `;
+
+/** Full-bleed band inside the page Container (escapes the prose column). */
+export const WideSection = styled.section`
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(var(--max-width-wide), calc(100% - 2rem));
+  margin-top: 3.4rem;
+  padding-top: 2.2rem;
+  /* border-top: 1px solid var(--divider); */
+`;
+
+/**
+ * Indents content to the reading column inside a WideSection once the overhang
+ * exists. Pure CSS, so the server-rendered layout is already correct.
+ */
+export const ReadingIndent = styled.div`
+  @media (min-width: 1000px) {
+    padding-left: max(0px, calc((100% - var(--max-width)) / 2));
+  }
+`;

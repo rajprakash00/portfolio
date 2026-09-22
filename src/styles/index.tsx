@@ -119,7 +119,7 @@ export const GlobalStyles = createGlobalStyle`
 	h1 {
 		font-size: 2.5rem;
 		letter-spacing: -0.03em;
-		line-height: 12.05; 
+		line-height: 1.05; 
 	}
 	h2 {
 		font-size: 2rem;

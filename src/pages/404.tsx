@@ -1,6 +1,6 @@
 import { DocumentHead } from "@/components/shared/seo";
 import { TitleHighlight } from "@/components/shared/typography";
-import { Center, Container } from "@/styles/layout";
+import { Center } from "@/styles/layout";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -8,7 +8,7 @@ const PageNotFound = () => {
   return (
     <>
       <DocumentHead title="404!" />
-      <Container className="content">
+      <div className="content">
         <Center>
           <TitleHighlight as={"h2"}>404!</TitleHighlight>
           <SubTitle>Page Not Found:(</SubTitle>
@@ -17,7 +17,7 @@ const PageNotFound = () => {
             <br /> <HomeAnchor href="/" passHref>Go back to home</HomeAnchor> 🏡
           </Description>
         </Center>
-      </Container>
+      </div>
     </>
   );
 };

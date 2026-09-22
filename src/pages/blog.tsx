@@ -2,13 +2,13 @@ import Link from "next/link";
 import React from "react";
 
 import { DocumentHead } from "@/components/shared/seo";
-import { Center, Container } from "@/styles/layout";
+import { Center } from "@/styles/layout";
 
 const Blog = () => {
   return (
     <>
       <DocumentHead title="Blogs" />
-      <Container className="content about">
+      <div className="content about">
         <Center>
           <h2>Coming Soon! ⌛</h2>
           <br />
@@ -18,7 +18,7 @@ const Blog = () => {
             <Link href="/board">pinned board</Link>.
           </p>
         </Center>
-      </Container>
+      </div>
     </>
   );
 };

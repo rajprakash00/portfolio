@@ -1,4 +1,4 @@
-import { StatusBody, StatusKicker, StatusWrap } from "./styles";
+import { StatusBody, StatusKicker, StatusPulse, StatusWrap } from "./styles";
 
 const LIVE_PROJECT_URL = "https://change-report.byraj.dev";
 
@@ -6,6 +6,7 @@ export function StatusLine() {
   return (
     <StatusWrap>
       <StatusKicker>
+        <StatusPulse aria-hidden="true" />
         AI Engineer · open to AI/LLM roles · remote-friendly
       </StatusKicker>
       <StatusBody>

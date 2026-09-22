@@ -3,10 +3,9 @@ import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
 import { ContributionGraph } from "@/components/contributions";
 import { DocumentHead } from "@/components/shared/seo";
-import { Container, Center } from "@/styles/layout";
+import { Center } from "@/styles/layout";
 import { MDXComponents } from "@/components/mdx";
 import { StatusLine } from "@/components/statusLine";
-import { ViewCounter } from "@/components/viewCounter";
 import { TitleHighlight } from "@/components/shared/typography";
 import { getContentPage } from "@/lib/content";
 
@@ -17,7 +16,7 @@ const Home = ({ page }: HomeProps) => {
   return (
     <>
       <DocumentHead title="Home" />
-      <Container className="content intro">
+      <div className="content intro">
         <Center>
           <h2>Hello, I&apos;m <TitleHighlight>Raj!</TitleHighlight> 👋</h2>
         </Center>
@@ -28,8 +27,7 @@ const Home = ({ page }: HomeProps) => {
           {...page}
           components={{ ContributionGraph, ...MDXComponents }}
         />
-        <ViewCounter />
-      </Container>
+      </div>
     </>
   );
 };
