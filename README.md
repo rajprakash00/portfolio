@@ -1,24 +1,44 @@
-## 🐇 [byraj.dev](https://byraj.dev) 
+# 🐇 [byraj.dev](https://byraj.dev)
 
-This is my personal minimalistic portfolio which I'll be updating frequently with blogs,rebuilding stuffs with different stacks 👻 
-### Tech stack
-- [NextJS](https://nextjs.org/docs) + [React](https://react.dev/)
-- [Typescript](https://www.typescriptlang.org/docs/)
+This is my personal portfolio, blogs and frequent writings space. The site is built around a seasons metaphor: spring, summer, autumn, and winter and everything adaptable to it.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org/docs) (Pages Router) + [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/docs/)
 - [styled-components](https://styled-components.com/)
-- [mdx](https://mdxjs.com/)
-- [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) + [gray-matter](https://github.com/jonschlinkert/gray-matter)
-- [react icons](https://react-icons.github.io/react-icons/) ✨
-- [framer motion](https://www.framer.com/motion/)
-- [supabase](https://supabase.com/)
+- [MDX](https://mdxjs.com/) via [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) + [gray-matter](https://github.com/jonschlinkert/gray-matter)
+- [Framer Motion](https://www.framer.com/motion/)
+- [react-icons](https://react-icons.github.io/react-icons/)
+- [Supabase](https://supabase.com/) + [TanStack Query](https://tanstack.com/query) / [SWR](https://swr.vercel.app/)
 
-### Development
+## Development
 
-<b>Please have nodejs installed as a prerequisite.</b>
+Requires Node.js.
 
-To run in dev mode, run:
-
-```
+```bash
+npm install
 npm run dev
 ```
 
-> If you want to have your own page viewing feature(cool!) then you can edit `.env` file with your own supabase keys.
+Other scripts:
+
+```bash
+npm run build   # production build
+npm run lint    # eslint
+```
+
+### View counter (optional)
+
+The footer view counter uses Supabase. To enable it, create a `.env.local` with:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
+Without these, the rest of the site runs fine.
+
+## License
+
+[MIT](./LICENSE)
