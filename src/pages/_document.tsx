@@ -70,7 +70,7 @@ export default class MyDocument extends Document {
 // loses it in prod, and must still parse as an expression, not a declaration.
 const setClientInitialSeason = `(${setInitialSeason.toString()})();`;
 
-// DESIGN.md §2: one `data-season` attribute drives the whole theme.
+// One `data-season` attribute drives the whole theme.
 // Persisted choice in localStorage["season"] always wins;
 // otherwise default by month: Mar–May spring, Jun–Aug summer,
 // Sep–Nov autumn, Dec–Feb winter.

@@ -30,7 +30,7 @@ const GRAVITY: Record<Season, number> = {
   winter: 0.045,
 };
 
-// Hex fallbacks mirror DESIGN.md §2.2 (used only if a CSS var read comes back empty).
+// Hex fallbacks mirror the seasonal tokens (used only if a CSS var read comes back empty).
 const FALLBACK: Record<string, string> = {
   "--accent": "#d6547e",
   "--accent-ink": "#a83a5e",

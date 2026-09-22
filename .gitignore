@@ -37,3 +37,10 @@ src/data/board.stress.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only working docs (never publish)
+CONTEXT.md
+PRODUCT.md
+DESIGN.md
+docs/adr/
+AGENTS.md

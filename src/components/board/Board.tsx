@@ -47,7 +47,7 @@ import {
 
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Signature moment: rotator flip between seasonal canvases (DESIGN.md §4). */
+/** Signature moment: rotator flip between seasonal canvases. */
 const FLIP_VARIANTS: Variants = {
   enter: { opacity: 0, rotateY: 88 },
   center: { opacity: 1, rotateY: 0 },
