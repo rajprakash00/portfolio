@@ -32,12 +32,12 @@ export const SocialLinksOverlay = () => {
 			icon: <FaStackOverflow />,
 		},
 		{
-			link: "https://www.linkedin.com/in/rajprakash-sahoo-7597a216a",
+			link: "https://www.linkedin.com/in/rajprakash-sahoo",
 			title: "Raj's LinkedIn",
 			icon: <FaLinkedin />,
 		},
 		{
-			link: "mailto:rajprakashwork20@gmail.com",
+			link: "mailto:rajprakash1999@gmail.com",
 			title: "Send email to Rajprakash",
 			icon: <FaEnvelope />,
 		},

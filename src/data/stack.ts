@@ -16,6 +16,8 @@ export const STACK_GROUPS: StackGroup[] = [
       "Structured outputs",
       "LangGraph",
       "MCP",
+      "LanceDB",
+      "ONNX",
     ],
   },
   {
@@ -52,6 +54,8 @@ export const STACK_GROUPS: StackGroup[] = [
       "GitHub Actions",
       "Sentry",
       "CloudWatch",
+      "FFmpeg",
+      "Fly.io",
     ],
   },
 ];

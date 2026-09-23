@@ -14,6 +14,8 @@ export const TIMELINE: TimelineEntry[] = [
     points: [
       "Built and deployed Contract Change-Impact Intelligence: a multi-tenant LLM platform that extracts obligations from agreements and amendments, explains version diffs, and maps each change to the clauses it impacts.",
       "Citation-gated extraction (1.0 citation validity, 0.90 extraction precision) over hybrid retrieval at 0.96 recall@10, with per-tenant spend limits and per-call cost accounting.",
+      "Built shotgrep, a video search engine: stage-cached ingest (FFmpeg, faster-whisper ASR, SigLIP embeddings), fused visual + transcript retrieval over LanceDB, served over REST and MCP tools.",
+      "Measured, not claimed: 64 frozen queries over 3,797 moments — Recall@5 0.688 vs 0.578 baseline, MRR 0.495, p50 189 ms / p95 234 ms.",
     ],
   },
   {
