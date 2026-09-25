@@ -17,10 +17,8 @@ export interface FieldNote {
 }
 
 export interface Project {
-  /** Stable anchor and specimen seed, independent of ledger order. */
+  /** Stable anchor and specimen seed. */
   slug: string;
-  /** Assigned oldest-first; the ledger shows newest-first. */
-  accession: number;
   name: string;
   family: string;
   state: SpecimenState;
@@ -35,23 +33,40 @@ export interface Project {
   notes?: FieldNote[];
 }
 
-type ProjectSeed = Omit<Project, "accession">;
-
-/** Ledger order: newest first. Accessions are derived oldest-first below. */
-const SEEDS: ProjectSeed[] = [
+/** Newest first. */
+export const PROJECTS: Project[] = [
   {
-    slug: "pr-risk-agent",
-    name: "Review-gated PR-risk agent",
-    family: "Agents",
-    state: "growing",
-    collected: "2026 – now",
+    slug: "shotgrep",
+    name: "shotgrep",
+    family: "Video retrieval",
+    state: "in bloom",
+    collected: "Sep 2026",
     summary:
-      "An agent that reads a pull request and surfaces what a reviewer should look at first, with a human approving anything it says.",
-    sheet: "seedling",
+      "Video search that finds the moment, not the file: fused visual and transcript retrieval over a stage-cached ingest.",
+    live: "https://shotgrep-demo.vercel.app",
+    source: "https://github.com/rajprakash00/shotgrep",
+    sheet: "full",
+    habitat: ["FFmpeg", "faster-whisper", "SigLIP", "LanceDB", "ONNX", "MCP"],
+    measurements: {
+      rows: [
+        { label: "Recall@5", value: "0.688" },
+        { label: "MRR", value: "0.495" },
+        { label: "latency", value: "189 ms p50 / 234 ms p95" },
+      ],
+      provenance: "frozen eval set, 64 queries over 3,797 moments, Sep 2026",
+    },
     notes: [
       {
-        label: "field notes",
-        body: "An agent that reads a pull request and surfaces what deserves a reviewer's attention first. Review-gated end to end: it proposes, a person approves. Still growing, and no measurements are listed until a run has a source and date behind them.",
+        label: "the problem",
+        body: "Searching video usually means searching titles and descriptions. The moments inside stay invisible until someone scrubs through them.",
+      },
+      {
+        label: "the approach",
+        body: "Stage-cached ingest with FFmpeg, faster-whisper, and SigLIP; fused visual and transcript retrieval over LanceDB; served over REST and MCP tools.",
+      },
+      {
+        label: "what it proved",
+        body: "Measured, not claimed: 0.688 Recall@5 against a 0.578 keyword baseline, on the same 64 frozen queries.",
       },
     ],
   },
@@ -60,7 +75,7 @@ const SEEDS: ProjectSeed[] = [
     name: "Contract Change-Impact Intelligence",
     family: "Retrieval",
     state: "in bloom",
-    collected: "May 2026 – now",
+    collected: "Aug 2026 – Sep 2026",
     summary:
       "A multi-tenant LLM platform for agreements and amendments: extract the obligations, explain the diff, map each change to the clauses it impacts.",
     live: "https://change-report.byraj.dev",
@@ -97,41 +112,6 @@ const SEEDS: ProjectSeed[] = [
     ],
   },
   {
-    slug: "shotgrep",
-    name: "shotgrep",
-    family: "Video retrieval",
-    state: "in bloom",
-    collected: "2026",
-    summary:
-      "Video search that finds the moment, not the file: fused visual and transcript retrieval over a stage-cached ingest.",
-    live: "https://shotgrep-demo.vercel.app",
-    source: "https://github.com/rajprakash00/shotgrep",
-    sheet: "full",
-    habitat: ["FFmpeg", "faster-whisper", "SigLIP", "LanceDB", "ONNX", "MCP"],
-    measurements: {
-      rows: [
-        { label: "Recall@5", value: "0.688" },
-        { label: "MRR", value: "0.495" },
-        { label: "latency", value: "189 ms p50 / 234 ms p95" },
-      ],
-      provenance: "frozen eval set, 64 queries over 3,797 moments, Sep 2026",
-    },
-    notes: [
-      {
-        label: "the problem",
-        body: "Searching video usually means searching titles and descriptions. The moments inside stay invisible until someone scrubs through them.",
-      },
-      {
-        label: "the approach",
-        body: "Stage-cached ingest with FFmpeg, faster-whisper, and SigLIP; fused visual and transcript retrieval over LanceDB; served over REST and MCP tools.",
-      },
-      {
-        label: "what it proved",
-        body: "Measured, not claimed: 0.688 Recall@5 against a 0.578 keyword baseline, on the same 64 frozen queries.",
-      },
-    ],
-  },
-  {
     slug: "portfolio",
     name: "This site",
     family: "Frontend craft",
@@ -141,16 +121,6 @@ const SEEDS: ProjectSeed[] = [
       "A seasonal portfolio and blog: four tuned light themes, a generative journey vine, and now an herbarium of the work itself.",
     live: "https://byraj.dev",
     source: "https://github.com/rajprakash00/portfolio",
-  },
-  {
-    slug: "contacts-app",
-    name: "Contacts-app",
-    family: "Mobile / OSS",
-    state: "pressed",
-    collected: "2022",
-    summary:
-      "A React Native contacts app built to learn Redux, redux-persist, and Jest, then left open as a record of the learning.",
-    source: "https://github.com/rajprakash00/Contacts-app",
   },
   {
     slug: "rn-otp-timer",
@@ -164,15 +134,6 @@ const SEEDS: ProjectSeed[] = [
   },
 ];
 
-export const PROJECTS: Project[] = SEEDS.map((seed, index) => ({
-  ...seed,
-  accession: SEEDS.length - index,
-}));
-
 export const FEATURED_PROJECTS = PROJECTS.filter(
   (project) => project.sheet !== undefined
 );
-
-export function formatAccession(accession: number) {
-  return `№ ${String(accession).padStart(3, "0")}`;
-}

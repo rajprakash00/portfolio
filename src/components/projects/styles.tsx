@@ -14,98 +14,6 @@ const stateInk = ($state: SpecimenState) => css`
       : "var(--muted)"};
 `;
 
-/* ---------------------------------- ledger --------------------------------- */
-
-export const Ledger = styled.ol`
-  display: grid;
-  margin: 0;
-  padding: 0;
-  max-width: var(--max-width);
-  list-style: none;
-`;
-
-export const RowName = styled.span`
-  order: 1;
-  flex-basis: 100%;
-
-  @media (min-width: 1000px) {
-    order: 0;
-    flex-basis: auto;
-  }
-`;
-
-export const RowNameLink = styled.a`
-  /* Vertical padding widens the tap target without moving the row. */
-  padding-block: 0.7rem;
-  font-weight: 500;
-  color: var(--ink);
-  transition: color var(--dur-micro) var(--ease-out);
-
-  &:hover {
-    color: var(--accent-ink);
-  }
-`;
-
-export const RowNameText = styled.span`
-  font-weight: 500;
-  color: var(--ink);
-`;
-
-export const RowAccession = styled.span`
-  order: 2;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-
-  @media (min-width: 1000px) {
-    order: 0;
-  }
-`;
-
-export const RowMeta = styled.span<{ $state?: SpecimenState }>`
-  order: 3;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  ${({ $state }) => ($state ? stateInk($state) : "")}
-
-  @media (min-width: 1000px) {
-    order: 0;
-  }
-`;
-
-export const LedgerRow = styled(motion.li)`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.5rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid var(--divider);
-
-  /* Mobile stacks to two lines: name, then the mono meta trail with middots. */
-  ${RowName} + ${RowMeta}::before,
-  ${RowMeta} + ${RowMeta}::before {
-    content: "·";
-    margin-right: 0.5rem;
-  }
-
-  @media (min-width: 1000px) {
-    display: grid;
-    grid-template-columns: 2.6rem minmax(0, 1fr) 7.3rem 4rem 6.9rem;
-    column-gap: 0.8rem;
-    padding: 0.9rem 0;
-
-    ${RowName} + ${RowMeta}::before,
-    ${RowMeta} + ${RowMeta}::before {
-      content: none;
-    }
-  }
-`;
-
 /* --------------------------------- specimen -------------------------------- */
 
 export const Sheets = styled.div`
@@ -116,7 +24,6 @@ export const Sheets = styled.div`
 export const Sheet = styled.article`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  row-gap: 1.6rem;
   padding-top: 2.6rem;
   scroll-margin-top: 84px;
 
@@ -130,8 +37,6 @@ export const Sheet = styled.article`
         0px,
         calc((100% - var(--max-width)) / 2)
       ) minmax(0, 1fr);
-    column-gap: 0;
-    row-gap: 0;
     padding-top: 3.2rem;
 
     & + & {
@@ -140,21 +45,62 @@ export const Sheet = styled.article`
   }
 `;
 
-export const SpecimenCell = styled.div`
-  display: flex;
-  align-items: flex-start;
+/**
+ * Mobile: the specimen sits small in the second column beside the heading, so
+ * the project reads first without an illustration block of its own. Desktop:
+ * the head dissolves and the specimen rejoins the overhang rail.
+ */
+export const SheetHead = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.5rem;
+  align-items: start;
 
   @media (min-width: 1000px) {
-    justify-content: flex-end;
+    display: contents;
+  }
+`;
+
+export const SpecimenCell = styled.div`
+  grid-column: 2;
+  grid-row: 1;
+
+  @media (max-width: 999px) {
+    svg {
+      width: 76px;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    justify-self: end;
     padding-right: 1.9rem;
   }
 `;
 
-export const LabelBlock = styled(motion.div)`
-  max-width: var(--max-width);
+export const SheetText = styled(motion.div)`
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+
+  @media (min-width: 1000px) {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: var(--max-width);
+  }
 `;
 
-export const SheetName = styled.h3`
+export const SheetRest = styled(motion.div)`
+  max-width: var(--max-width);
+
+  @media (min-width: 1000px) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+`;
+
+export const SheetName = styled.h2`
   margin: 0;
   padding-top: 0;
   font-size: clamp(1.45rem, 2.6vw, 1.75rem);

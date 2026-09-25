@@ -1,11 +1,10 @@
 import { motion, type Variants } from "framer-motion";
 
 import { useSeason } from "@/components/season";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { FEATURED_PROJECTS, PROJECTS, formatAccession } from "@/data/projects";
+import { FEATURED_PROJECTS } from "@/data/projects";
 import type { Project } from "@/data/projects";
 import { EASE_OUT } from "@/lib/motion";
-import { ReadingIndent, WideSection } from "@/styles/layout";
+import { WideSection } from "@/styles/layout";
 import type { Season } from "@/lib/season";
 import { useReducedMotionAfterMount } from "@/lib/useReducedMotionAfterMount";
 
@@ -13,9 +12,6 @@ import { Specimen } from "./Specimen";
 import {
   Habitat,
   HabitatLabel,
-  LabelBlock,
-  Ledger,
-  LedgerRow,
   MeasurementLabel,
   MeasurementList,
   MeasurementRow,
@@ -24,19 +20,17 @@ import {
   NoteBody,
   NoteLabel,
   Provenance,
-  RowAccession,
-  RowMeta,
-  RowName,
-  RowNameLink,
-  RowNameText,
   Sheet,
+  SheetHead,
   SheetLink,
   SheetLinks,
   SheetMeta,
   SheetName,
   SheetNotes,
+  SheetRest,
   SheetState,
   SheetSummary,
+  SheetText,
   Sheets,
   SpecimenCell,
 } from "./styles";
@@ -53,63 +47,16 @@ const STILL_VARIANTS: Variants = {
   show: { opacity: 1, y: 0 },
 };
 
-/** The row's only link: a sheet anchor for featured projects, otherwise wherever the artifact lives. */
-function ledgerHref(project: Project) {
-  if (project.sheet) return `#${project.slug}`;
-  return project.live ?? project.source;
-}
-
-export function AccessionLedger() {
-  const reduce = useReducedMotionAfterMount();
-
-  return (
-    <WideSection>
-      <ReadingIndent>
-        <SectionHeader title="Accession ledger" />
-      </ReadingIndent>
-      <ReadingIndent>
-        <Ledger>
-          {PROJECTS.map((project, index) => {
-            const href = ledgerHref(project);
-            return (
-              <LedgerRow
-                key={project.slug}
-                variants={reduce ? STILL_VARIANTS : REVEAL_VARIANTS}
-                initial={reduce ? false : "hidden"}
-                animate={reduce ? "show" : undefined}
-                whileInView={reduce ? undefined : "show"}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{
-                  duration: 0.6,
-                  ease: EASE_OUT,
-                  delay: reduce ? 0 : index * 0.05,
-                }}
-              >
-                <RowAccession>{formatAccession(project.accession)}</RowAccession>
-                <RowName>
-                  {href ? (
-                    <RowNameLink
-                      href={href}
-                      {...(project.sheet
-                        ? {}
-                        : { target: "_blank", rel: "noopener noreferrer" })}
-                    >
-                      {project.name}
-                    </RowNameLink>
-                  ) : (
-                    <RowNameText>{project.name}</RowNameText>
-                  )}
-                </RowName>
-                <RowMeta>{project.family}</RowMeta>
-                <RowMeta $state={project.state}>{project.state}</RowMeta>
-                <RowMeta>{project.collected}</RowMeta>
-              </LedgerRow>
-            );
-          })}
-        </Ledger>
-      </ReadingIndent>
-    </WideSection>
-  );
+/** The sheet's text and its supporting blocks reveal the same way, separately. */
+function revealProps(reduce: boolean) {
+  return {
+    variants: reduce ? STILL_VARIANTS : REVEAL_VARIANTS,
+    initial: reduce ? (false as const) : ("hidden" as const),
+    animate: reduce ? ("show" as const) : undefined,
+    whileInView: reduce ? undefined : ("show" as const),
+    viewport: { once: true, margin: "-60px 0px" },
+    transition: { duration: 0.6, ease: EASE_OUT },
+  };
 }
 
 export function SpecimenSheets() {
@@ -117,9 +64,6 @@ export function SpecimenSheets() {
 
   return (
     <WideSection>
-      <ReadingIndent>
-        <SectionHeader title="Specimen sheets" />
-      </ReadingIndent>
       <Sheets>
         {FEATURED_PROJECTS.map((project) => (
           <SpecimenSheet key={project.slug} project={project} season={season} />
@@ -141,29 +85,26 @@ function SpecimenSheet({
 
   return (
     <Sheet id={project.slug} aria-labelledby={`${project.slug}-name`}>
-      <SpecimenCell>
-        <Specimen
-          slug={project.slug}
-          season={season}
-          state={project.state}
-          seedling={seedling}
-        />
-      </SpecimenCell>
-      <LabelBlock
-        variants={reduce ? STILL_VARIANTS : REVEAL_VARIANTS}
-        initial={reduce ? false : "hidden"}
-        animate={reduce ? "show" : undefined}
-        whileInView={reduce ? undefined : "show"}
-        viewport={{ once: true, margin: "-60px 0px" }}
-        transition={{ duration: 0.6, ease: EASE_OUT }}
-      >
-        <SheetName id={`${project.slug}-name`}>{project.name}</SheetName>
-        <SheetMeta>
-          {project.family} ·{" "}
-          <SheetState $state={project.state}>{project.state}</SheetState> ·{" "}
-          {project.collected}
-        </SheetMeta>
-        <SheetSummary>{project.summary}</SheetSummary>
+      <SheetHead>
+        <SpecimenCell>
+          <Specimen
+            slug={project.slug}
+            season={season}
+            state={project.state}
+            seedling={seedling}
+          />
+        </SpecimenCell>
+        <SheetText {...revealProps(reduce)}>
+          <SheetName id={`${project.slug}-name`}>{project.name}</SheetName>
+          <SheetMeta>
+            {project.family} ·{" "}
+            <SheetState $state={project.state}>{project.state}</SheetState> ·{" "}
+            {project.collected}
+          </SheetMeta>
+          <SheetSummary>{project.summary}</SheetSummary>
+        </SheetText>
+      </SheetHead>
+      <SheetRest {...revealProps(reduce)}>
         {project.habitat ? (
           <Habitat>
             <HabitatLabel>habitat</HabitatLabel>
@@ -215,7 +156,7 @@ function SpecimenSheet({
             ) : null}
           </SheetLinks>
         ) : null}
-      </LabelBlock>
+      </SheetRest>
     </Sheet>
   );
 }
