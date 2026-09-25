@@ -49,7 +49,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   /* AUTUMN — amber */
   [data-season="autumn"] {
-    --bg: #faf5ec; --surface: #fffdf8; --ink: #2e2620; --muted: #7d7264;
+    --bg: #faf5ec; --surface: #fffdf8; --ink: #2e2620; --muted: #786d5f;
     --accent: #b96f1f; --accent-ink: #8d5412; --accent-soft: #f3e3c8;
     --vine: #7a5a2e; --vine-bloom: #d99a3d; --particle: leaf;
     --divider: rgba(46, 38, 32, 0.12);

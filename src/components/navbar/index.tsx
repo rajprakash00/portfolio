@@ -28,6 +28,7 @@ const NAV_LINKS = [
     path: "/blog",
   },
   { title: "about", path: "/about" },
+  { title: "projects", path: "/projects" },
   { title: "pinned", path: "/board" },
 ];
 
